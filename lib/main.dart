@@ -1,63 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: BookListScreen(),
-  ));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: BookListScreen(),
+    ),
+  );
 }
 
 class BookListScreen extends StatelessWidget {
+  BookListScreen({super.key});
+
   final List<Map<String, String>> books = [
     {
       'title': 'Algorithms to Live By',
       'author': 'Brian Christian',
-      'description': 'Book about computer science and human decisions.'
+      'description': 'Book about computer science and human decisions.',
+      'pdf': 'assets/pdfs/buku1.pdf',
     },
     {
       'title': 'Beginning Programming',
       'author': 'Wallace Wang',
-      'description': 'Introduction to programming concepts.'
+      'description': 'Introduction to programming concepts.',
+      'pdf': 'assets/pdfs/buku2.pdf',
     },
     {
       'title': 'Streamlit for Data Science',
       'author': 'Tyler Richards',
-      'description': 'Interactive data apps using Python.'
+      'description': 'Interactive data apps using Python.',
+      'pdf': 'assets/pdfs/buku3.pdf',
     },
     {
       'title': 'Flutter Basics',
       'author': 'John Smith',
-      'description': 'Learn Flutter from scratch.'
+      'description': 'Learn Flutter from scratch.',
+      'pdf': 'assets/pdfs/buku4.pdf',
     },
     {
       'title': 'Mobile App Design',
       'author': 'Sarah Johnson',
-      'description': 'UI/UX design for mobile apps.'
+      'description': 'UI/UX design for mobile apps.',
+      'pdf': 'assets/pdfs/buku5.pdf',
     },
     {
       'title': 'Dart Programming',
       'author': 'Michael Lee',
-      'description': 'Complete guide to Dart language.'
+      'description': 'Complete guide to Dart language.',
+      'pdf': 'assets/pdfs/buku6.pdf',
     },
     {
       'title': 'Android Studio Guide',
       'author': 'David Brown',
-      'description': 'Learn Android Studio tools.'
+      'description': 'Learn Android Studio tools.',
+      'pdf': 'assets/pdfs/buku7.pdf',
     },
     {
       'title': 'Database for Mobile',
       'author': 'Linda White',
-      'description': 'Using SQLite and Firebase.'
+      'description': 'Using SQLite and Firebase.',
+      'pdf': 'assets/pdfs/buku8.pdf',
     },
     {
       'title': 'API Integration',
       'author': 'James Wilson',
-      'description': 'Connect mobile apps with REST API.'
+      'description': 'Connect mobile apps with REST API.',
+      'pdf': 'assets/pdfs/buku9.pdf',
     },
     {
       'title': 'Advanced Flutter',
       'author': 'Emma Davis',
-      'description': 'Advanced widgets and routing.'
+      'description': 'Advanced widgets and routing.',
+      'pdf': 'assets/pdfs/buku10.pdf',
     },
   ];
 
@@ -81,6 +96,7 @@ class BookListScreen extends StatelessWidget {
                     title: books[index]['title']!,
                     author: books[index]['author']!,
                     description: books[index]['description']!,
+                    pdfPath: books[index]['pdf']!,
                   ),
                 ),
               );
@@ -96,11 +112,14 @@ class BookDetailScreen extends StatelessWidget {
   final String title;
   final String author;
   final String description;
+  final String pdfPath;
 
-  BookDetailScreen({
+  const BookDetailScreen({
+    super.key,
     required this.title,
     required this.author,
     required this.description,
+    required this.pdfPath,
   });
 
   @override
@@ -110,48 +129,48 @@ class BookDetailScreen extends StatelessWidget {
         title: Text(title),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Title: $title',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Author: $author',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
               'Description: $description',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Back'),
+              child: const Text('Back'),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ReadingBookFile(),
+                    builder: (context) => PdfScreen(pdfPath: pdfPath),
                   ),
                 );
               },
-              child: Text('Read the Book'),
+              child: const Text('Read the Book'),
             ),
           ],
         ),
@@ -160,19 +179,18 @@ class BookDetailScreen extends StatelessWidget {
   }
 }
 
-class ReadingBookFile extends StatelessWidget {
+class PdfScreen extends StatelessWidget {
+  final String pdfPath;
+
+  const PdfScreen({super.key, required this.pdfPath});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reading Book'),
+        title: const Text('Reading Book PDF'),
       ),
-      body: Center(
-        child: Text(
-          'This is the reading page',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: SfPdfViewer.asset(pdfPath),
     );
   }
 }
