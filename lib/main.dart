@@ -2,30 +2,71 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: BookListScreen(),
   ));
 }
 
 class BookListScreen extends StatelessWidget {
   final List<Map<String, String>> books = [
-    {'title': 'Algorithms to Live By: The Computer Science of Human Decisions', 'author': 'Brian Christian', 'description': 'In a dazzlingly interdisciplinary work, '
-        'Brian Christian and Tom Griffiths show how algorithms developed for computers also untangle very human questions. '
-        'They explain how to have better hunches and when to leave things to chance, how to deal with overwhelming choices and how best to connect with others. '
-        'From finding a spouse to finding a parking spot, from organizing one’s inbox to peering into the future, '
-        'Algorithms to Live By transforms the wisdom of computer science into strategies for human living.'},
-    {'title': 'Beginning Programming All-in-One Desk Reference for Dummies', 'author': 'Wallace Wang', 'description': 'Beginning Programming All In One Desk Reference For Dummies shows you how to decide what you want your program to do, '
-        'turn your instructions into “machine language” that the computer understands, use programming best practices, '
-        'explore the “how” and “why” of data structuring, and more. '
-        'You’ll even get a look into various applications like database management, bioinformatics, computer security, and artificial intelligence. '
-        'Soon you’ll realize that — wow! You’re a programmer!'},
-    {'title': 'Streamlit for Data Science: Create interactive data apps in Python', 'author': 'Tyler Richards', 'description': 'If you work with data in Python and are looking to create data apps that showcase ML models and make beautiful interactive visualizations, then this is the ideal book for you. Streamlit for Data Science, Second Edition, shows you how to create and deploy data apps quickly, all within Python. This helps you create prototypes in hours instead of days!'
-        'Written by a prolific Streamlit user and senior data scientist at Snowflake, this fully updated second edition builds on the practical nature of the previous edition with exciting updates, including connecting Streamlit to data warehouses like Snowflake, integrating Hugging Face and OpenAI models into your apps, and connecting and building apps on top of Streamlit databases. Plus, there is a totally updated code repository on GitHub to help you practice your newfound skills.'},
+    {
+      'title': 'Algorithms to Live By',
+      'author': 'Brian Christian',
+      'description': 'Book about computer science and human decisions.'
+    },
+    {
+      'title': 'Beginning Programming',
+      'author': 'Wallace Wang',
+      'description': 'Introduction to programming concepts.'
+    },
+    {
+      'title': 'Streamlit for Data Science',
+      'author': 'Tyler Richards',
+      'description': 'Interactive data apps using Python.'
+    },
+    {
+      'title': 'Flutter Basics',
+      'author': 'John Smith',
+      'description': 'Learn Flutter from scratch.'
+    },
+    {
+      'title': 'Mobile App Design',
+      'author': 'Sarah Johnson',
+      'description': 'UI/UX design for mobile apps.'
+    },
+    {
+      'title': 'Dart Programming',
+      'author': 'Michael Lee',
+      'description': 'Complete guide to Dart language.'
+    },
+    {
+      'title': 'Android Studio Guide',
+      'author': 'David Brown',
+      'description': 'Learn Android Studio tools.'
+    },
+    {
+      'title': 'Database for Mobile',
+      'author': 'Linda White',
+      'description': 'Using SQLite and Firebase.'
+    },
+    {
+      'title': 'API Integration',
+      'author': 'James Wilson',
+      'description': 'Connect mobile apps with REST API.'
+    },
+    {
+      'title': 'Advanced Flutter',
+      'author': 'Emma Davis',
+      'description': 'Advanced widgets and routing.'
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Book List')),
+      appBar: AppBar(
+        title: Text('Book List (${books.length} Books)'),
+      ),
       body: ListView.builder(
         itemCount: books.length,
         itemBuilder: (context, index) {
@@ -56,25 +97,42 @@ class BookDetailScreen extends StatelessWidget {
   final String author;
   final String description;
 
-  BookDetailScreen({required this.title, required this.author, required this.description});
+  BookDetailScreen({
+    required this.title,
+    required this.author,
+    required this.description,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(
+        title: Text(title),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Title: $title', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text(
+              'Title: $title',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             SizedBox(height: 8),
-            Text('Author: $author', style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic)),
+            Text(
+              'Author: $author',
+              style: TextStyle(fontSize: 18),
+            ),
             SizedBox(height: 12),
-            Text('Description:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            SizedBox(height: 6),
-            Text(description, style: TextStyle(fontSize: 16)),
+            Text(
+              'Description: $description',
+              style: TextStyle(fontSize: 16),
+            ),
             SizedBox(height: 20),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -82,18 +140,19 @@ class BookDetailScreen extends StatelessWidget {
               child: Text('Back'),
             ),
 
-             ElevatedButton(
-               onPressed: () {
-                 Navigator.push(context,
-                   MaterialPageRoute(
-                     builder: (context) => ReadingBookFile(
+            SizedBox(height: 10),
 
-                     ),
-                   ),
-                 );
-               },
-               child: Text('Read the book'),
-             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReadingBookFile(),
+                  ),
+                );
+              },
+              child: Text('Read the Book'),
+            ),
           ],
         ),
       ),
@@ -104,8 +163,16 @@ class BookDetailScreen extends StatelessWidget {
 class ReadingBookFile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    Text('Reading Book File');
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Reading Book'),
+      ),
+      body: Center(
+        child: Text(
+          'This is the reading page',
+          style: TextStyle(fontSize: 20),
+        ),
+      ),
+    );
   }
 }
