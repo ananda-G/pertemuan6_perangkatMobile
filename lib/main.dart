@@ -2,105 +2,61 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: BookListScreen(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
-class BookListScreen extends StatelessWidget {
-  BookListScreen({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  final List<Map<String, String>> books = [
-    {
-      'title': 'Algorithms to Live By',
-      'author': 'Brian Christian',
-      'description': 'Book about computer science and human decisions.',
-      'pdf': 'assets/pdfs/buku1.pdf',
-    },
-    {
-      'title': 'Beginning Programming',
-      'author': 'Wallace Wang',
-      'description': 'Introduction to programming concepts.',
-      'pdf': 'assets/pdfs/buku2.pdf',
-    },
-    {
-      'title': 'Streamlit for Data Science',
-      'author': 'Tyler Richards',
-      'description': 'Interactive data apps using Python.',
-      'pdf': 'assets/pdfs/buku3.pdf',
-    },
-    {
-      'title': 'Flutter Basics',
-      'author': 'John Smith',
-      'description': 'Learn Flutter from scratch.',
-      'pdf': 'assets/pdfs/buku4.pdf',
-    },
-    {
-      'title': 'Mobile App Design',
-      'author': 'Sarah Johnson',
-      'description': 'UI/UX design for mobile apps.',
-      'pdf': 'assets/pdfs/buku5.pdf',
-    },
-    {
-      'title': 'Dart Programming',
-      'author': 'Michael Lee',
-      'description': 'Complete guide to Dart language.',
-      'pdf': 'assets/pdfs/buku6.pdf',
-    },
-    {
-      'title': 'Android Studio Guide',
-      'author': 'David Brown',
-      'description': 'Learn Android Studio tools.',
-      'pdf': 'assets/pdfs/buku7.pdf',
-    },
-    {
-      'title': 'Database for Mobile',
-      'author': 'Linda White',
-      'description': 'Using SQLite and Firebase.',
-      'pdf': 'assets/pdfs/buku8.pdf',
-    },
-    {
-      'title': 'API Integration',
-      'author': 'James Wilson',
-      'description': 'Connect mobile apps with REST API.',
-      'pdf': 'assets/pdfs/buku9.pdf',
-    },
-    {
-      'title': 'Advanced Flutter',
-      'author': 'Emma Davis',
-      'description': 'Advanced widgets and routing.',
-      'pdf': 'assets/pdfs/buku10.pdf',
-    },
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Tugas Aplikasi Buku',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Daftar 10 Buku Pilihan'),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  // DATA 10 BUKU
+  final List<Map<String, dynamic>> daftarBuku = const [
+    {"judul": "Pemrograman Web Dasar", "penulis": "Ananda", "image": "cover1.jpg", "pdf": "buku1.pdf"},
+    {"judul": "Buku Sakti Python", "penulis": "Ananda", "image": "cover2.jpg", "pdf": "buku2.pdf"},
+    {"judul": "Logika & Algoritma", "penulis": "Ananda", "image": "cover3.jpg", "pdf": "buku3.pdf"},
+    {"judul": "Belajar Dasar C++", "penulis": "Ananda", "image": "cover4.jpg", "pdf": "buku4.pdf"},
+    {"judul": "Pemrograman Java", "penulis": "Ananda", "image": "cover5.jpg", "pdf": "buku5.pdf"},
+    {"judul": "7 in 1 Pemrograman Web", "penulis": "Ananda", "image": "cover6.jpg", "pdf": "buku6.pdf"},
+    {"judul": "Desain Web PHP", "penulis": "Ananda", "image": "cover7.jpg", "pdf": "buku7.pdf"},
+    {"judul": "Sistem Pakar AI", "penulis": "Ananda", "image": "cover8.jpg", "pdf": "buku8.pdf"},
+    {"judul": "Pengantar Mikrokontroler", "penulis": "Ananda", "image": "cover9.jpg", "pdf": "buku9.pdf"},
+    {"judul": "Pemrograman Scratch", "penulis": "Ananda", "image": "cover10.jpg", "pdf": "buku10.pdf"},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book List (${books.length} Books)'),
+        title: Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.blueAccent,
       ),
       body: ListView.builder(
-        itemCount: books.length,
+        padding: const EdgeInsets.all(8.0),
+        itemCount: daftarBuku.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(books[index]['title']!),
-            subtitle: Text(books[index]['author']!),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BookDetailScreen(
-                    title: books[index]['title']!,
-                    author: books[index]['author']!,
-                    description: books[index]['description']!,
-                    pdfPath: books[index]['pdf']!,
-                  ),
-                ),
-              );
-            },
+          final buku = daftarBuku[index];
+          return ProductBox(
+            judul: buku["judul"],
+            penulis: buku["penulis"],
+            image: buku["image"],
+            pdf: buku["pdf"],
           );
         },
       ),
@@ -108,70 +64,68 @@ class BookListScreen extends StatelessWidget {
   }
 }
 
-class BookDetailScreen extends StatelessWidget {
-  final String title;
-  final String author;
-  final String description;
-  final String pdfPath;
-
-  const BookDetailScreen({
+class ProductBox extends StatelessWidget {
+  const ProductBox({
     super.key,
-    required this.title,
-    required this.author,
-    required this.description,
-    required this.pdfPath,
+    required this.judul,
+    required this.penulis,
+    required this.image,
+    required this.pdf,
   });
+
+  final String judul;
+  final String penulis;
+  final String image;
+  final String pdf;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Title: $title',
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        height: 140,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image.asset(
+                "assets/appimages/$image",
+                width: 80,
+                height: 120,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const Icon(Icons.book, size: 80, color: Colors.grey),
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Author: $author',
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Description: $description',
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Back'),
-            ),
-
-            const SizedBox(height: 10),
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PdfScreen(pdfPath: pdfPath),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(judul, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  Text("Penulis: $penulis", style: const TextStyle(color: Colors.grey)),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HalamanBacaPDF(judulBuku: judul, filePdf: pdf),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.picture_as_pdf, size: 16),
+                    label: const Text("Read the book"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      foregroundColor: Colors.white,
+                    ),
                   ),
-                );
-              },
-              child: const Text('Read the Book'),
-            ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -179,18 +133,21 @@ class BookDetailScreen extends StatelessWidget {
   }
 }
 
-class PdfScreen extends StatelessWidget {
-  final String pdfPath;
+class HalamanBacaPDF extends StatelessWidget {
+  final String judulBuku;
+  final String filePdf;
 
-  const PdfScreen({super.key, required this.pdfPath});
+  const HalamanBacaPDF({super.key, required this.judulBuku, required this.filePdf});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reading Book PDF'),
+        title: Text(judulBuku, style: const TextStyle(color: Colors.white)),
+        backgroundColor: Colors.blueAccent,
       ),
-      body: SfPdfViewer.asset(pdfPath),
+      // PERBAIKAN: folder harus 'pdfs' sesuai pubspec.yaml
+      body: SfPdfViewer.asset('assets/pdfs/$filePdf'),
     );
   }
 }
